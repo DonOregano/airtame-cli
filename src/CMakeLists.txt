@@ -15,5 +15,5 @@ elseif (UNIX)
     set (TRAY_LIBS jsonrpcc pthread uuid)
 endif ()
 
-target_link_libraries (tray-cli
+target_link_libraries (airtame-cli
         "${TRAY_LIBS}")
