@@ -1,5 +1,3 @@
-project (airtame-cli)
-
 add_executable(airtame-cli
         main.c
         wingetopt.c
@@ -17,3 +15,5 @@ endif ()
 
 target_link_libraries (airtame-cli
         "${TRAY_LIBS}")
+
+install (TARGETS airtame-cli DESTINATION bin)
