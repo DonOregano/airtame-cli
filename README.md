@@ -19,11 +19,15 @@ autoreconf -vfi
 ./configure --prefix=$AIRTAME_CLI_PATH/deps/out/
 make install
 ```
-#### Building airtame-cli
+#### Building airtame-cli (you can omit -DCMAKE_INSTALL_PREFIX:PATH part)
 ```sh
 cd airtame-cli && mkdir out
-cd out && cmake ../
+cd out && cmake -DCMAKE_INSTALL_PREFIX:PATH=<install-path> ../
 make
+```
+#### Installing airtame-cli
+```sh
+make install
 ```
 
 ## Licence
