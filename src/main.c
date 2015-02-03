@@ -27,6 +27,7 @@
 #include "ssdp.h"
 #include "ssdp_uuid.h"
 #include "threading.h"
+#include "airtame-server-rpc.h"
 
 #define AIRTAME_SSDP_SERVICE "airtame:streamer"
 
@@ -588,48 +589,52 @@ int main(int argc, char **argv) {
 }
 
 void rpc_set_framerate(char *fps) {
-    cJSON *result = jrpc_client_call(&cmds_client, "setStreamerSettings", 2, "framerate", fps);
+    cJSON *result = jrpc_client_call(&cmds_client, SET_STREAMER_SETTINGS_METHOD,
+            2, SET_STREAMER_SETTINGS_FRAMERATE_PNAME, fps);
     print_rpc_result("set framerate", result);
 }
 
 void rpc_set_quality(char *q) {
-    cJSON *result = jrpc_client_call(&cmds_client, "setStreamerSettings", 2, "quality", q);
+    cJSON *result = jrpc_client_call(&cmds_client, SET_STREAMER_SETTINGS_METHOD,
+            2, SET_STREAMER_SETTINGS_QUALITY_PNAME, q);
     print_rpc_result("set quality ", result);
 }
 
 void rpc_set_mode(char *mode) {
-    cJSON *result = jrpc_client_call(&cmds_client, "setStreamerSettings", 2, "mode", mode);
+    cJSON *result = jrpc_client_call(&cmds_client, SET_STREAMER_SETTINGS_METHOD,
+            2, SET_STREAMER_SETTINGS_MODE_PNAME, mode);
     print_rpc_result("set mode ", result);
 }
 
 void rpc_set_buffer(char *buff_period) {
-    cJSON *result = jrpc_client_call(&cmds_client, "setStreamerSettings", 2, "buffer", buff_period);
+    cJSON *result = jrpc_client_call(&cmds_client, SET_STREAMER_SETTINGS_METHOD,
+            2, SET_STREAMER_SETTINGS_BUFF_PNAME, buff_period);
     print_rpc_result("set buffer period", result);
 }
 
 void rpc_disconnect(char *ip, char *port) {
-    cJSON *result = jrpc_client_call(&cmds_client, "disconnect", 2, ip, port);
+    cJSON *result = jrpc_client_call(&cmds_client, DISCONNECT_METHOD, 2, ip, port);
     print_rpc_result("disconnect", result);
 }
 
 void rpc_connect(char *ip, char *port) {
-    cJSON *result = jrpc_client_call(&cmds_client, "connect", 2, ip, port);
+    cJSON *result = jrpc_client_call(&cmds_client, CONNECT_METHOD, 2, ip, port);
     print_rpc_result("connect", result);
 }
 
 
 void rpc_init_streamer() {
-    cJSON *result = jrpc_client_call(&cmds_client, "initStreamer", 0);
+    cJSON *result = jrpc_client_call(&cmds_client, INIT_STREAMER_METHOD, 0);
     print_rpc_result("init_streamer ", result);
 }
 
 void rpc_close_streamer() {
-    cJSON *result = jrpc_client_call(&cmds_client, "closeStreamer", 0);
+    cJSON *result = jrpc_client_call(&cmds_client, CLOSE_STREAMER_METHOD, 0);
     print_rpc_result("close_streamer", result);
 }
 
 void rpc_get_state() {
-    cJSON *result = jrpc_client_call(&cmds_client, "getState", 0);
+    cJSON *result = jrpc_client_call(&cmds_client, GET_STATE_METHOD, 0);
     print_rpc_result("get_state", result);
 }
 
