@@ -56,7 +56,7 @@ typedef struct {
 
 // TODO: move the airtame commands in a separate airtame-interface file
 enum Function {NONE, CLOSE_STREAMER, INIT_STREAMER, CONNECT_IP, DISCONNECT_IP, CONNECT,
-    DISCONNECT, SCAN, LISTEN, AVMODE, AVBUFFER, FRAMERATE, QUALITY, SHELL};
+    DISCONNECT, SCAN, LISTEN, AVMODE, AVBUFFER, FRAMERATE, QUALITY, AUDIO_ENABLE, SHELL};
 
 enum Function current_function = NONE;
 char *additional_args = NULL;
@@ -377,7 +377,7 @@ int process_args(int argc, char **argv) {
     }
 
     opterr = 0;
-    while ((c = getopt(argc, argv, "C:D:c:d:m:b:f:q:lsShvix")) != -1) {
+    while ((c = getopt(argc, argv, "C:D:c:d:m:b:f:q:a:lsShvix")) != -1) {
         switch(c) {
         case 'i':
             current_function = INIT_STREAMER;
@@ -424,6 +424,10 @@ int process_args(int argc, char **argv) {
             current_function = FRAMERATE;
             additional_args = optarg;
             break;
+        case 'a':
+            current_function = AUDIO_ENABLE;
+            additional_args = optarg;
+            break;
         case 'q':
             current_function = QUALITY;
             additional_args = optarg;
@@ -432,7 +436,8 @@ int process_args(int argc, char **argv) {
             print_help(argv[0]);
             exit(0);
         default:
-            abort();
+            printf("Invalid command line arguments");
+            return 1;
         }
     }
     return 0;
@@ -499,6 +504,7 @@ int main(int argc, char **argv) {
 #endif
 
     if (process_args(argc, argv)) {
+        printf("Invalid/unimplemented command line options");
         return 1;
     }
 
@@ -563,6 +569,10 @@ int main(int argc, char **argv) {
     case FRAMERATE:
         rpc_set_framerate(additional_args);
         printf("Framerate set to %s\n", additional_args);
+        break;
+    case AUDIO_ENABLE:
+        rpc_set_audio_enabled(additional_args);
+        printf("Audio set to %s\n", additional_args);
         break;
     case QUALITY:
         rpc_set_quality(additional_args);
