@@ -56,7 +56,7 @@ typedef struct {
 
 // TODO: move the airtame commands in a separate airtame-interface file
 enum Function {NONE, CLOSE_STREAMER, INIT_STREAMER, CONNECT_IP, DISCONNECT_IP, CONNECT,
-    DISCONNECT, SCAN, LISTEN, AVMODE, AVBUFFER, FRAMERATE, QUALITY, AUDIO_ENABLE, SHELL};
+    DISCONNECT, SCAN, LISTEN, AVMODE, AVBUFFER, FRAMERATE, QUALITY, AUDIO_ENABLE, GET_STATE, SHELL};
 
 enum Function current_function = NONE;
 char *additional_args = NULL;
@@ -196,6 +196,7 @@ void print_help(char *name) {
             "        -q <quality>    : Quality setting [0-5, 0 = minimum 5 = maximum]\n"
             "        -a <on/off>     : Enable/disable audio\n"
             "        -b <value>      : Set buffer period in ms\n"
+            "        -p              : Get the current state\n"
             "        -S              : Shell mode\n\n"
             ,name);
 }
@@ -377,7 +378,7 @@ int process_args(int argc, char **argv) {
     }
 
     opterr = 0;
-    while ((c = getopt(argc, argv, "C:D:c:d:m:b:f:q:a:lsShvix")) != -1) {
+    while ((c = getopt(argc, argv, "C:D:c:d:m:b:f:q:a:lspShvix")) != -1) {
         switch(c) {
         case 'i':
             current_function = INIT_STREAMER;
@@ -405,6 +406,9 @@ int process_args(int argc, char **argv) {
             break;
         case 's':
             current_function = SCAN;
+            break;
+        case 'p':
+            current_function = GET_STATE;
             break;
         case 'S':
             current_function = SHELL;
@@ -577,6 +581,9 @@ int main(int argc, char **argv) {
     case QUALITY:
         rpc_set_quality(additional_args);
         printf("Quality set to %s\n", additional_args);
+        break;
+    case GET_STATE:
+        rpc_get_state();
         break;
     default:
         break;
