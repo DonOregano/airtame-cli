@@ -10,6 +10,13 @@ git clone https://github.com/airtame/airtame-cli.git
 cd airtame-cli
 git submodule update --init
 ```
+
+You will also need libuuid on Linux, which can usually be installed from the distribution's repository.
+On Ubuntu you would install it by:
+```sh
+apt-get install uuid-dev
+```
+
 #### Building airtame-cli
 ```sh
 cd airtame-cli && mkdir build
