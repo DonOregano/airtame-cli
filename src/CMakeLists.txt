@@ -11,14 +11,16 @@ add_executable(${AIRTAME_CLI_TNAME}
         )
 
 if(APPLE)
-    set(AIRTAME_CLI_LIBS jsonrpcc)
+    set(AIRTAME_CLI_LIBS ${JSONRPCC_LIBRARY})
 elseif(UNIX)
-    set(AIRTAME_CLI_LIBS jsonrpcc pthread uuid)
+    set(AIRTAME_CLI_LIBS ${JSONRPCC_LIBRARY} pthread uuid)
 endif()
 
 target_link_libraries(${AIRTAME_CLI_TNAME}
         ${AIRTAME_CLI_LIBS})
 
-add_dependencies(${AIRTAME_CLI_TNAME} jsonrpc-c)
+if (USE_INTERNAL_JSONRPCC)
+  add_dependencies(${AIRTAME_CLI_TNAME} jsonrpc-c)
+endif()
 
 install(TARGETS ${AIRTAME_CLI_TNAME} DESTINATION bin)
