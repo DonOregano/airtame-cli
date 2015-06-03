@@ -29,7 +29,9 @@ FIND_LIBRARY(JSONRPCC_LIBRARY
   NAMES
     jsonrpcc
   PATHS
+    /usr/lib64
     /usr/lib
+    /usr/local/lib64)
     /usr/local/lib)
 
 if (JSONRPCC_LIBRARY AND JSONRPCC_INCLUDE_DIRECTORY)
