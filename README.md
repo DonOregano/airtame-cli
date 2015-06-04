@@ -11,10 +11,10 @@ cd airtame-cli
 git submodule update --init
 ```
 
-You will also need libuuid on Linux, which can usually be installed from the distribution's repository.
+You will also need libuuid and libtool on Linux, which can usually be installed from the distribution's repository.
 On Ubuntu you would install it by:
 ```sh
-apt-get install uuid-dev
+apt-get install uuid-dev libtool
 ```
 
 #### Building airtame-cli
