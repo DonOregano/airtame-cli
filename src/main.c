@@ -67,6 +67,7 @@ Thread_t ssdp_thread;
 struct jrpc_server *notifications_listener = NULL;
 struct jrpc_client cmds_client;
 Thread_t notifications_thread;
+int notifications_thread_started = 0;
 char cmd_line[MAX_CMDLINE_LENGTH];
 Thread_t cmdline_thread;
 
@@ -347,6 +348,7 @@ void read_cmdline(void *data) {
     jrpc_register_procedure(notifications_listener, streaming_state, "streamingState", NULL );
     jrpc_register_procedure(notifications_listener, connection_state, "connectionState", NULL );
     threading_create_thread(&notifications_thread, notifications_thread_main, NULL);
+    notifications_thread_started = 1;
     cJSON *result = jrpc_client_call(&cmds_client, "registerListener", 2, "127.0.0.1", not_port);
     print_rpc_result("registerListener", result);
 
@@ -599,7 +601,10 @@ int main(int argc, char **argv) {
     while (*runner) asleep(100);
 
     threading_cleanup_thread(&ssdp_thread);
-    threading_cleanup_thread(&notifications_thread);
+    if (notifications_thread_started)
+    {
+        threading_cleanup_thread(&notifications_thread);
+    }
     printf("\n");
     return 0;
 }
