@@ -20,14 +20,34 @@
 
 #include "ssdp_uuid.h"
 
+//You're responsible for calling free on the returned string
+char* get_uuid_path() {
+    char* path = malloc(2048);
+    char* config = getenv("XDG_CONFIG_HOME");
+    //if XDG_CONFIG_HOME is not set we use $HOME/.config as specified by standard.
+    if (!config) {
+        char* home = getenv("HOME");
+        if (!home) return 0;
+
+        sprintf(path,"%s/.config/airtame/.saved_uuid",home);
+    }
+    else {
+        sprintf(path,"%s/airtame/.saved_uuid", config);
+    }
+
+    return path;
+}
 /*
  * TODO: combine all three functions into a single one that will try to load the
  * uuid from file, and if it doesn't exist then it will generate and save it.
  * TODO: remove len? it is the same as strlen(uuid).
  */
 int airtame_load_uuid(char *uuid, int *len) {
+    char* path = get_uuid_path();
+    if (!path) return AIRTAME_ERROR;
+
     FILE *fp;
-    fp = fopen(".saved_uuid", "r");
+    fp = fopen(path, "r");
     if (!fp) return AIRTAME_ERROR;
 
     int r = fscanf(fp, "%s\n", uuid);
@@ -38,9 +58,11 @@ int airtame_load_uuid(char *uuid, int *len) {
 }
 
 int airtame_save_uuid(char *uuid) {
+    char* path = get_uuid_path();
+    if (!path) return AIRTAME_ERROR;
+
     FILE *fp;
-    // TODO: create the uuid file under home folder
-    fp = fopen(".saved_uuid", "w");
+    fp = fopen(path, "w");
     if (!fp) return AIRTAME_ERROR;
 
     fprintf(fp, "%s\n", uuid);
