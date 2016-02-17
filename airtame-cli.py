@@ -20,12 +20,20 @@
 # along with airtame-cli.py.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-
-# All Rights Reserved.
-#
-# See LICENSE.txt for further information.
-
 import sys, zmq, argparse, json, time
+
+# Some more commands to implement:
+# at_get_state_streamer() {
+#     airtame_rpc_call get_state "{}"
+# }
+
+# at_clean() {
+#     airtame_rpc_call clean "{}"
+# }
+
+# at_exit() {
+#     airtame_rpc_call program_exit "{}"
+# }
 
 def send_command(method, params):
     command = json.dumps({"method":method,"params":params,"id":1})
@@ -65,6 +73,7 @@ The supported commands are:
         print("Initialising airtame-streamer")
         send_command("init",{})
         time.sleep(2.0)
+        #this is a bunch of stuff that the widget does on startup
         send_command("set_settings",{"streaming_mode":"work"})
         send_command("set_settings",{"framerate":20})
         send_command("set_settings",{"buffer":0})
