@@ -5,7 +5,7 @@ airtame-cli is a command line interface to the AIRTAME core streaming software. 
 ## Run
 1. Make sure the airtame-streamer is running.
 2. airtame-cli init
-3. airtame-cli connect <host-or-ip>
+3. airtame-cli connect [host-or-ip]
 
 Run airtame-cli --help for more information.
 

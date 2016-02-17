@@ -51,8 +51,8 @@ class AirtameCli(object):
 
 The supported commands are:
    init       Initialise airtame-streamer
-   connect    TODO
-   disconnect TODO
+   connect    Start streaming to an airtame device
+   disconnect Stop streaming to an airtame device
 ''')
         parser.add_argument('command', help='Subcommand to run')
         # parse_args defaults to [1:] for args, but you need to
@@ -85,7 +85,7 @@ The supported commands are:
 
     def connect(self):
         parser = argparse.ArgumentParser(
-            description='TODO',
+            description='Start streaming to an airtame device',
             prog = sys.argv[0] + " connect")
 
         parser.add_argument('host', help="Hostname or ip address of the airtame to connect to")
@@ -96,7 +96,7 @@ The supported commands are:
 
     def disconnect(self):
         parser = argparse.ArgumentParser(
-            description='TODO',
+            description='Stop streaming to an airtame device',
             prog = sys.argv[0] + " disconnect")
 
         parser.add_argument('host', help="Ip address of the airtame to disconnect from (hostname does not work)")
